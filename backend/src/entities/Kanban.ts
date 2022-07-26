@@ -10,4 +10,8 @@ export class Kanban {
   public user?: User;
   public createdAt?: Date;
   public updatedAt?: Date;
+
+  constructor(props: Omit<Kanban, "id">) {
+    Object.assign(this, props);
+  }
 }

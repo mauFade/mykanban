@@ -9,4 +9,8 @@ export class User {
   public kanbans?: Kanban[];
   public createdAt?: Date;
   public updatedAt?: Date;
+
+  constructor(props: Omit<User, "id">) {
+    Object.assign(this, props);
+  }
 }
