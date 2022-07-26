@@ -5,6 +5,7 @@ import { IUserRepository } from "../User";
 import { ICreateUserDTO } from "src/usecases/User/CreateUser/CreateUserDTO";
 import { IUpdateUserDTO } from "src/usecases/User/UpdateUser/UpdateUserDTO";
 import { IDeleteUserDTO } from "src/usecases/User/DeleteUser/DeleteUserDTO";
+import { IListUserDTO } from "src/usecases/User/ListUser/ListUserDTO";
 
 export class PrismaUserRepository implements IUserRepository {
   async create({ name, email, password }: ICreateUserDTO) {
@@ -19,10 +20,14 @@ export class PrismaUserRepository implements IUserRepository {
     return user;
   }
 
-  async read() {
-    const users = await prisma.user.findMany();
+  async read({ name }: IListUserDTO) {
+    const user = await prisma.user.findFirstOrThrow({
+      where: {
+        name,
+      },
+    });
 
-    return users;
+    return user;
   }
 
   async update({ id, name, email, password }: IUpdateUserDTO) {
