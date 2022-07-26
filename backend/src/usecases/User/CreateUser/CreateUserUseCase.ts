@@ -1,4 +1,5 @@
-import { IUserRepository } from "src/repositories/User";
+import { User } from "../../../entities/User";
+import { IUserRepository } from "../../../repositories/User";
 import { ICreateUserDTO } from "./CreateUserDTO";
 
 export class CreateUserUseCase {
@@ -23,11 +24,13 @@ export class CreateUserUseCase {
       throw new Error("Password is required.");
     }
 
-    const user = await this.createUserRepository.create({
+    const data = new User({
       name,
       email,
       password,
     });
+
+    const user = await this.createUserRepository.create(data);
 
     return user;
   }
