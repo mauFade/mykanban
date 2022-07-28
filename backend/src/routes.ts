@@ -2,11 +2,17 @@ import { Router } from "express";
 
 import auth from "./services/authentication";
 
+import { createLoginController } from "./usecases/Auth";
 import { createUserController } from "./usecases/User/CreateUser";
 import { listUserController } from "./usecases/User/ListUser";
 import { updateUserController } from "./usecases/User/UpdateUser";
 
 const router = Router();
+
+// Rota de login
+router.post("/api/v1/login", (request, response) => {
+  return createLoginController.handle(request, response);
+});
 
 router.post("/api/v1/user", (request, response) => {
   return createUserController.handle(request, response);
