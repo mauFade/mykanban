@@ -4,7 +4,9 @@ import auth from "./services/authentication";
 
 import { createLoginController } from "./usecases/Auth";
 import { createKanbanController } from "./usecases/Kanban/CreateKanban";
+import { deleteKanbanController } from "./usecases/Kanban/DeleteKanban";
 import { listKanbanController } from "./usecases/Kanban/ListKanban";
+import { updateKanbanController } from "./usecases/Kanban/UpdateKanban";
 import { createUserController } from "./usecases/User/CreateUser";
 import { deleteUserController } from "./usecases/User/DeleteUser";
 import { listUserController } from "./usecases/User/ListUser";
@@ -41,6 +43,14 @@ router.post("/api/v1/kanban", auth.verifyJWT, (request, response) => {
 
 router.get("/api/v1/kanban", auth.verifyJWT, (request, response) => {
   return listKanbanController.handle(request, response);
+});
+
+router.put("/api/v1/kanban", auth.verifyJWT, (request, response) => {
+  return updateKanbanController.handle(request, response);
+});
+
+router.put("/api/v1/kanban", auth.verifyJWT, (request, response) => {
+  return deleteKanbanController.handle(request, response);
 });
 
 export { router };

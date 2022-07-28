@@ -15,5 +15,7 @@ describe("List kanbans tests", () => {
 
   it("Should return all kanbans", async () => {
     await expect(useCase.execute()).resolves.not.toThrow();
+
+    expect(readSpy).toHaveBeenCalled();
   });
 });
