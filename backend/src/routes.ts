@@ -3,6 +3,7 @@ import { Router } from "express";
 import auth from "./services/authentication";
 
 import { createLoginController } from "./usecases/Auth";
+import { createKanbanController } from "./usecases/Kanban/CreateKanban";
 import { createUserController } from "./usecases/User/CreateUser";
 import { deleteUserController } from "./usecases/User/DeleteUser";
 import { listUserController } from "./usecases/User/ListUser";
@@ -15,6 +16,7 @@ router.post("/api/v1/login", (request, response) => {
   return createLoginController.handle(request, response);
 });
 
+// Rotas de usuários
 router.post("/api/v1/user", (request, response) => {
   return createUserController.handle(request, response);
 });
@@ -29,6 +31,11 @@ router.put("/api/v1/user", auth.verifyJWT, (request, response) => {
 
 router.delete("/api/v1/user", auth.verifyJWT, (request, response) => {
   return deleteUserController.handle(request, response);
+});
+
+// Rotas de kanban
+router.post("/api/v1/kanban", auth.verifyJWT, (request, response) => {
+  return createKanbanController.handle(request, response);
 });
 
 export { router };
