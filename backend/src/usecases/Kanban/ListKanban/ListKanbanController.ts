@@ -9,8 +9,8 @@ export class ListKanbanController {
 
     const id: number = token["id"];
 
-    const kanbans = await this.listKanbanUseCase.execute();
+    const kanbans = await this.listKanbanUseCase.execute({ id });
 
-    return response.status(200).send({ success: true, kanbans, id });
+    return response.status(200).send({ success: true, kanbans });
   }
 }

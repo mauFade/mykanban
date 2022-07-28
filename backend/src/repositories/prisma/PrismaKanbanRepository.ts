@@ -4,6 +4,7 @@ import { IKanbanRepository } from "../Kanban";
 import { ICreateKanbanDTO } from "../../usecases/Kanban/CreateKanban/CreateKanbanDTO";
 import { IUpdateKanbanDTO } from "../../usecases/Kanban/UpdateKanban/UpdateKanbanDTO";
 import { IDeleteKanbanDTO } from "../../usecases/Kanban/DeleteKanban/DeleteKanbanDTO";
+import { IListKanbanDTO } from "src/usecases/Kanban/ListKanban/ListkanbanDTO";
 
 export class PrismaKanbanRepository implements IKanbanRepository {
   async create({ userId, title, status, description }: ICreateKanbanDTO) {
@@ -19,9 +20,12 @@ export class PrismaKanbanRepository implements IKanbanRepository {
     return kanban;
   }
 
-  async read() {
+  async read({ id }: IListKanbanDTO) {
     const kanbans = await prisma.kanban.findMany({
       include: { user: true },
+      where: {
+        userId: id,
+      },
     });
 
     return kanbans;

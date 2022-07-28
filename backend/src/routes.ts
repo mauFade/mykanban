@@ -49,7 +49,7 @@ router.put("/api/v1/kanban", auth.verifyJWT, (request, response) => {
   return updateKanbanController.handle(request, response);
 });
 
-router.put("/api/v1/kanban", auth.verifyJWT, (request, response) => {
+router.delete("/api/v1/kanban", auth.verifyJWT, (request, response) => {
   return deleteKanbanController.handle(request, response);
 });
 
