@@ -1,12 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{tsx}"],
+  content: ["./src/**/*.{html,js,ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        bluesky: "#04B3C8",
-        grayish: "#323232",
-        beigeish: "#E8E8E8",
+        stoneGray: "#2C3333",
+        darkCyan: "#395B64",
+        lightCyan: "#A5C9CA",
+        whiteCyan: "#E7F6F2",
       },
     },
   },
