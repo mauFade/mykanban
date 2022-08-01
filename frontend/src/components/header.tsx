@@ -11,8 +11,13 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full h-14 md:h-16 bg-lightCyan border-b border-darkCyan flex justify-around items-center">
-      <h1 className="font-bold text-2xl text-stoneGray">My Kanban</h1>
+    <header className="w-full h-14 md:h-16 bg-darkCyan border-b border-lightCyan flex justify-around items-center">
+      <a
+        className="font-bold text-2xl text-lightCyan hover:cursor-pointer"
+        href="/home"
+      >
+        My Kanban
+      </a>
       <a
         href="/user/profile"
         className="h-4/5 w-[7rem] bg-whiteCyan flex flex-row items-center justify-center rounded-lg text-stoneGray hover:border border-stoneGray px-2 space-x-1"
