@@ -1,31 +1,41 @@
-import { FormEvent } from "react";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 import { api } from "../services/api";
 import { login } from "../services/authentication";
 
 import hero from "../assets/hero.png";
 
-const Login = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+interface loginInput {
+  email: string;
+  password: string;
+}
 
+const validationSchema = yup.object({
+  email: yup.string().required("Digite seu e-mail!").email("E-mail inválido."),
+  password: yup.string().required("Digite sua senha!"),
+});
+
+const Login = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    await api
-      .post("/api/v1/login", {
-        email,
-        password,
-      })
-      .then((res) => {
-        login(res.data.token);
-        navigate("/feed");
+  const formik = useFormik({
+    onSubmit: async (values: loginInput) => {
+      const response = await api.post("/api/v1/login", {
+        email: values.email,
+        password: values.password,
       });
-  };
+      login(response.data.token);
+      navigate("/feed");
+    },
+    validationSchema,
+    validateOnMount: true,
+    initialValues: {
+      email: "",
+      password: "",
+    },
+  });
 
   return (
     <div className="h-full flex flex-row">
@@ -48,27 +58,52 @@ const Login = () => {
           </h3>
           <form
             className="flex justify-center items-center flex-col mt-5 w-4/5 space-y-6"
-            onSubmit={handleSubmit}
+            onSubmit={formik.handleSubmit}
           >
-            <input
-              type="email"
-              value={email}
-              placeholder="E-mail"
-              className="w-full h-12 focus:outline-none text-darkCyan rounded-2xl text-center"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              value={password}
-              placeholder="Senha"
-              className="w-full h-12 focus:outline-none text-darkCyan rounded-2xl text-center"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className="w-full">
+              <input
+                name="email"
+                type="email"
+                placeholder="E-mail"
+                className="w-full h-12 focus:outline-none text-darkCyan rounded-2xl text-center"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled={formik.isSubmitting}
+              />
+
+              {formik.touched.email && formik.errors.email && (
+                <div className="text-red-600 text-sm">
+                  {formik.errors.email}
+                </div>
+              )}
+            </div>
+
+            <div className="w-full">
+              <input
+                name="password"
+                type="password"
+                placeholder="Senha"
+                className="w-full h-12 focus:outline-none text-darkCyan rounded-2xl text-center"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled={formik.isSubmitting}
+              />
+
+              {formik.touched.password && formik.errors.password && (
+                <div className="text-red-600 text-sm">
+                  {formik.errors.password}
+                </div>
+              )}
+            </div>
+
             <button
               type="submit"
               className="w-full bg-darkCyan h-12 text-whiteCyan rounded-2xl hover:bg-lightCyan hover:text-darkCyan transition-colors font-semibold"
+              disabled={!formik.isValid || formik.isSubmitting}
             >
-              ENTRAR
+              {formik.isSubmitting ? "Entrando..." : "Entrar"}
             </button>
           </form>
         </div>
