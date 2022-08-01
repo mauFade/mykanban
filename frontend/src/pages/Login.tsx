@@ -27,7 +27,7 @@ const Login = () => {
         password: values.password,
       });
       login(response.data.token);
-      navigate("/feed");
+      navigate("/home");
     },
     validationSchema,
     validateOnMount: true,
